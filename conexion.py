@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
 def obtener_conexion():
-    uri = "mongodb://admin:cajero1234@ac-vphjntx-shard-00-00.ndweyrc.mongodb.net:27017,ac-vphjntx-shard-00-01.ndweyrc.mongodb.net:27017,ac-vphjntx-shard-00-02.ndweyrc.mongodb.net:27017/?ssl=true&replicaSet=atlas-5dfc70-shard-0&authSource=admin&retryWrites=true&w=majority"
+    uri = "mongodb+srv://admin:cajero1234@cluster0.ndweyrc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
     cliente = MongoClient(uri)
-    db = cliente["banco_db"]
+    db = cliente["banco_db"]  # Cambia "banco_db" por el nombre real de tu base
     return db
