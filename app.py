@@ -23,7 +23,7 @@ def index():
     <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <title>Cajero Thunder prueba</title>
+        <title>Cajero Thunder</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
         <!-- ========== SECCIÓN CSS ========== -->
@@ -165,7 +165,7 @@ def index():
         <!-- Barra de navegación superior -->
         <div class="navbar">
             <img src="/Imagenes/Logo.jpeg" alt="Logo Empresa">
-            <h1>Cajero Thunder</h1>
+            <h1>Cajero Thunder checando</h1>
             <div class="nav-buttons">
                 <a href="/ayuda"><button>Ayuda</button></a>
                 <button disabled>Volver</button>
