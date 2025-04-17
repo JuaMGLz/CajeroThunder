@@ -165,7 +165,7 @@ def index():
         <!-- Barra de navegación superior -->
         <div class="navbar">
             <img src="/Imagenes/Logo.jpeg" alt="Logo Empresa">
-            <h1>Cajero Thunder checando</h1>
+            <h1>Cajero Thunder</h1>
             <div class="nav-buttons">
                 <a href="/ayuda"><button>Ayuda</button></a>
                 <button disabled>Volver</button>
