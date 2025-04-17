@@ -23,7 +23,7 @@ def index():
     <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <title>Cajero Thunder</title>
+        <title>Cajero Thunder prueba</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
         <!-- ========== SECCIÓN CSS ========== -->
