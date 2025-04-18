@@ -2,4 +2,5 @@ Flask
 pymongo
 reportlab
 dnspython
-pymongo==3.12.3
+pymongo[srv]
+dnspython
