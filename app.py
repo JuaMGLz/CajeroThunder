@@ -7,6 +7,7 @@ from datetime import datetime
 from bson.decimal128 import Decimal128
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from pymongo import MongoClient
 
 
 app = Flask(__name__)
