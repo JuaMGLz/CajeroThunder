@@ -16,6 +16,17 @@ app = Flask(__name__)
 def imagenes(filename):
     return send_from_directory(os.path.join(app.root_path, 'Imagenes'), filename)
 
+@app.route('/ping_mongo')
+def ping_mongo():
+    try:
+        mongo_uri = os.environ.get("MONGO_URI", "mongodb+srv://admin:cajero1234@cluster0.ndweyrc.mongodb.net/banco_db?retryWrites=true&w=majority")
+        client = MongoClient(mongo_uri, serverSelectionTimeoutMS=3000)
+        client.admin.command('ping')
+        return jsonify({"ok": True, "mensaje": "✅ Conexión exitosa con MongoDB Atlas"})
+    except Exception as e:
+        print("❌ Error de conexión:", str(e))
+        return jsonify({"ok": False, "mensaje": f"❌ Sin conexión: {str(e)}"})
+    
 @app.route('/')
 def index():
     html = """
@@ -202,6 +213,16 @@ def index():
 
             setInterval(actualizarFechaHora, 1000);
             actualizarFechaHora();
+        </script>
+        <script>
+            fetch('/ping_mongo')
+            .then(response => response.json())
+            .then(data => {
+                console.log("📡 Estado de conexión con MongoDB Atlas:", data.mensaje);
+            })
+            .catch(error => {
+                console.error("❌ Error al verificar conexión con MongoDB:", error);
+            });
         </script>
     </body>
     </html>
