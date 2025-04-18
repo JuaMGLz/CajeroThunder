@@ -1,12 +1,6 @@
 from pymongo import MongoClient
-import certifi
 
 def obtener_conexion():
-    uri = "mongodb+srv://admin:cajero1234@cluster0.ndweyrc.mongodb.net/?retryWrites=true&w=majority&tls=true&tlsCAFile=" + certifi.where()
-    client = MongoClient(uri)
+    client = MongoClient("mongodb://admin:cajero1234@localhost:27017/?authSource=admin")
     db = client["banco_db"]
     return db
-
-
-import certifi
-print("Certifi path en Render:", certifi.where())
