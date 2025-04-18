@@ -2,9 +2,9 @@ from pymongo import MongoClient
 import certifi
 
 def obtener_conexion():
-    uri = "mongodb+srv://admin:cajero1234@cluster0.ndweyrc.mongodb.net/?retryWrites=true&w=majority"
-    cliente = MongoClient(uri, tls=True, tlsCAFile=certifi.where())
-    db = cliente["banco_db"]
+    uri = "mongodb+srv://admin:cajero1234@cluster0.ndweyrc.mongodb.net/?retryWrites=true&w=majority&tls=true&tlsCAFile=" + certifi.where()
+    client = MongoClient(uri)
+    db = client["banco_db"]
     return db
 
 
