@@ -1,12 +1,14 @@
 from pymongo import MongoClient
-import certifi
 
 def obtener_conexion():
-    uri = "mongodb+srv://admin:cajero1234@cluster0.ndweyrc.mongodb.net/?retryWrites=true&w=majority&tls=true&tlsCAFile=" + certifi.where()
-    client = MongoClient(uri)
-    db = client["banco_db"]
-    return db
-
+    try:
+        uri = "mongodb+srv://admin:cajero1234@cluster0.ndweyrc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+        cliente = MongoClient(uri)
+        db = cliente["banco_db"]  # Asegúrate de que este sea tu nombre real de base
+        return db
+    except Exception as e:
+        print("❌ Error de conexión con MongoDB Atlas:", e)
+        return None
 
 import certifi
 print("Certifi path en Render:", certifi.where())
