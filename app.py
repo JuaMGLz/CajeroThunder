@@ -1155,4 +1155,11 @@ def retirar():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    from conexion import obtener_conexion
+    try:
+        db = obtener_conexion()
+        print("✅ Conexión correcta a MongoDB Atlas")
+    except Exception as e:
+        print("❌ Error de conexión:", e)
+    
+    app.run(host='0.0.0.0', port=5000)
