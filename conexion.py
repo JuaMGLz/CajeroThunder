@@ -1,18 +1,9 @@
 from pymongo import MongoClient
 import os
 
-# Obtenemos la URI desde variables de entorno
-MONGO_URI = os.environ.get("MONGO_URI")
-
 def obtener_conexion():
-    client = MongoClient(MONGO_URI)
+    # Usa URI del entorno si está disponible, si no, usa localhost
+    mongo_uri = os.environ.get("MONGO_URI", "mongodb://admin:cajero1234@localhost:27017/?authSource=admin")
+    client = MongoClient(mongo_uri)
     db = client["banco_db"]
     return db
-
-# Validación al iniciar
-try:
-    client = MongoClient(MONGO_URI)
-    client.admin.command('ping')
-    print("✅ Conexión exitosa a MongoDB Atlas")
-except Exception as e:
-    print("❌ Error de conexión:", e)
