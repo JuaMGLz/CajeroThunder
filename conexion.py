@@ -1,12 +1,15 @@
 from pymongo import MongoClient
 import certifi
+import os
 
 def obtener_conexion():
-    uri = "mongodb+srv://admin:cajero1234@cluster0.ndweyrc.mongodb.net/?retryWrites=true&w=majority&tls=true&tlsCAFile=" + certifi.where()
+    # Leer URI desde variable de entorno en Render
+    uri = os.getenv("MONGO_URI")
+    if uri is None:
+        raise Exception("No se encontró la variable MONGO_URI en el entorno.")
+
+    # Agregar seguridad TLS y certificado
+    uri += "&tls=true&tlsCAFile=" + certifi.where()
+
     client = MongoClient(uri)
-    db = client["banco_db"]
-    return db
-
-
-import certifi
-print("Certifi path en Render:", certifi.where())
+    return client["banco_db"]
