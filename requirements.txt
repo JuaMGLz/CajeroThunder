@@ -1,7 +1,4 @@
 Flask
+pymongo[srv]
 reportlab
-dnspython
-pymongo[srv]==4.7.2
-dnspython
 certifi
-
