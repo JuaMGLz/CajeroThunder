@@ -1155,7 +1155,4 @@ def retirar():
 
 
 if __name__ == '__main__':
-    # Si está en Render, la variable PORT ya viene definida automáticamente
-    puerto = int(os.environ.get('PORT', 5000))
-    debug = puerto == 5000  # Solo debug si estás en localhost
-    app.run(host='0.0.0.0', port=puerto, debug=debug)
+    app.run(host='0.0.0.0', port=5000, debug=True)
