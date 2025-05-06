@@ -1,9 +1,9 @@
 from pymongo import MongoClient
-import os
 
 def obtener_conexion():
-    # Usa URI del entorno si está disponible, si no, usa localhost
-    mongo_uri = os.environ.get("MONGO_URI", "mongodb+srv://admin:cajero1234@cluster0.ndweyrc.mongodb.net/banco_db?retryWrites=true&w=majority")
+    # Conexión local con autenticación
+    mongo_uri = "mongodb://admin:cajero1234@localhost:27017/"
     client = MongoClient(mongo_uri)
     db = client["banco_db"]
     return db
+

@@ -10,7 +10,7 @@ from reportlab.pdfgen import canvas
 from pymongo import MongoClient
 
 
-app = Flask(__name__)
+app = Flask(__name__)  
 
 # Ruta manual para servir imágenes desde carpeta "Imagenes"
 @app.route('/Imagenes/<filename>')
@@ -20,13 +20,12 @@ def imagenes(filename):
 @app.route('/ping_mongo')
 def ping_mongo():
     try:
-        mongo_uri = os.environ.get("MONGO_URI", "mongodb+srv://admin:cajero1234@cluster0.ndweyrc.mongodb.net/banco_db?retryWrites=true&w=majority")
-        client = MongoClient(mongo_uri, serverSelectionTimeoutMS=3000)
-        client.admin.command('ping')
-        return jsonify({"ok": True, "mensaje": "✅ Conexión exitosa con MongoDB Atlas"})
+        db = obtener_conexion()
+        db.command('ping')  # Verifica conexión usando cliente local
+        return jsonify({"ok": True, "mensaje": "Conexión exitosa con MongoDB Docker"})
     except Exception as e:
-        print("❌ Error de conexión:", str(e))
-        return jsonify({"ok": False, "mensaje": f"❌ Sin conexión: {str(e)}"})
+        print("Error de conexión:", str(e))
+        return jsonify({"ok": False, "mensaje": f"Sin conexión: {str(e)}"})
     
 @app.route('/')
 def index():
