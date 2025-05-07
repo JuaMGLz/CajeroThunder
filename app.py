@@ -192,7 +192,7 @@ def index():
                 </button>
                 <button class="boton-personalizado" onclick="window.location.href='/retiro_sin_tarjeta'">
                     <img src="/Imagenes/noTarjeta.png" alt="Sin tarjeta">
-                    <span>Retiro sin tarjeta</span>
+                    <span>Sin tarjeta</span>
                 </button>
             </div>
         </div>
@@ -768,58 +768,52 @@ def cuenta(num):
     if not cuenta_doc or not cliente:
         return "Cuenta no encontrada", 404
 
-    html = """
+    html = f"""
     <!DOCTYPE html>
     <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <title>Cuenta %s</title>
+        <title>Cuenta {num}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
-            body {
+            body {{
                 margin: 0;
                 font-family: 'Times New Roman', Times, serif;
                 background: linear-gradient(135deg, #2e003e, #1a001f, #3b003b);
-                background-size: 400%% 400%%;
+                background-size: 400% 400%;
                 animation: fondoAnimado 15s ease infinite;
                 color: white;
                 display: flex;
                 flex-direction: column;
                 min-height: 100vh;
                 text-align: center;
-            }
-
-            @keyframes fondoAnimado {
-                0%% { background-position: 0%% 50%%; }
-                50%% { background-position: 100%% 50%%; }
-                100%% { background-position: 0%% 50%%; }
-            }
-
-            .navbar {
+            }}
+            @keyframes fondoAnimado {{
+                0% {{ background-position: 0% 50%; }}
+                50% {{ background-position: 100% 50%; }}
+                100% {{ background-position: 0% 50%; }}
+            }}
+            .navbar {{
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 background-color: rgba(0, 0, 0, 0.5);
                 padding: 20px 40px;
                 height: 100px;
-            }
-
-            .navbar img {
+            }}
+            .navbar img {{
                 height: 70px;
-            }
-
-            .navbar h1 {
+            }}
+            .navbar h1 {{
                 margin: 0;
                 font-size: 2.5rem;
                 color: #fff;
-            }
-
-            .nav-buttons {
+            }}
+            .nav-buttons {{
                 display: flex;
                 gap: 15px;
-            }
-
-            .nav-buttons a button {
+            }}
+            .nav-buttons a button {{
                 background-color: #6a0dad;
                 color: #fff;
                 border: none;
@@ -827,20 +821,17 @@ def cuenta(num):
                 font-size: 1rem;
                 border-radius: 5px;
                 cursor: pointer;
-            }
-
-            h2 {
+            }}
+            h2 {{
                 font-size: 2.3rem;
                 margin-top: 40px;
-            }
-
-            h3 {
+            }}
+            h3 {{
                 font-size: 1.7rem;
                 margin-top: 10px;
                 margin-bottom: 30px;
-            }
-
-            .boton {
+            }}
+            .boton {{
                 background-color: #6a0dad;
                 border: none;
                 color: white;
@@ -849,15 +840,20 @@ def cuenta(num):
                 border-radius: 8px;
                 cursor: pointer;
                 margin: 10px;
-            }
-
-            footer {
+            }}
+            .boton.deposito {{
+                background-color: #00b894;
+            }}
+            .boton.deposito:hover {{
+                background-color: #019d7c;
+            }}
+            footer {{
                 background-color: rgba(0, 0, 0, 0.4);
                 text-align: center;
                 padding: 20px;
                 font-size: 1.2rem;
                 margin-top: auto;
-            }
+            }}
         </style>
     </head>
     <body>
@@ -867,23 +863,40 @@ def cuenta(num):
             <div class="nav-buttons">
                 <a href="/"><button>Volver</button></a>
                 <a href="/ayuda"><button>Ayuda</button></a>
+                <a href="/historial_pdf/{num}"><button>Historial</button></a>
             </div>
         </div>
 
-        <h2>%s %s %s</h2>
-        <h3>Saldo actual: $%s</h3>
+        <h2>{cliente["nombre"]} {cliente["apellido_paterno"]} {cliente["apellido_materno"]}</h2>
+        <h3>Saldo actual: ${cuenta_doc["saldo_actual"]}</h3>
 
         <div>
+            <!-- Retiros -->
             <button class="boton" onclick="retirar(100)">Retirar $100</button>
             <button class="boton" onclick="retirar(200)">Retirar $200</button>
             <button class="boton" onclick="retirar(500)">Retirar $500</button>
             <button class="boton" onclick="
                 let m = prompt('Monto personalizado:');
-                if (m !== null && m.trim() !== '' && !isNaN(m) && parseFloat(m) > 0) {
+                if (m !== null && m.trim() !== '' && !isNaN(m) && parseFloat(m) > 0) {{
                     retirar(parseFloat(m));
-                } else if (m !== null) {
+                }} else if (m !== null) {{
                     alert('Por favor ingresa un monto válido mayor a 0.');
-                }
+                }}
+            ">Otra cantidad</button>
+
+            <hr style="margin: 30px 0; border-color: #fff;">
+
+            <!-- Depósitos -->
+            <button class="boton deposito" onclick="depositar(100)">Depositar $100</button>
+            <button class="boton deposito" onclick="depositar(200)">Depositar $200</button>
+            <button class="boton deposito" onclick="depositar(500)">Depositar $500</button>
+            <button class="boton deposito" onclick="
+                let m = prompt('Monto personalizado:');
+                if (m !== null && m.trim() !== '' && !isNaN(m) && parseFloat(m) > 0) {{
+                    depositar(parseFloat(m));
+                }} else if (m !== null) {{
+                    alert('Por favor ingresa un monto válido mayor a 0.');
+                }}
             ">Otra cantidad</button>
         </div>
 
@@ -892,48 +905,107 @@ def cuenta(num):
         </footer>
 
         <script>
-            function retirar(monto) {
-                fetch("/retirar", {
+            function retirar(monto) {{
+                fetch("/retirar", {{
                     method: "POST",
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        cuenta: "%s",
+                    headers: {{ 'Content-Type': 'application/json' }},
+                    body: JSON.stringify({{
+                        cuenta: "{num}",
                         monto: monto,
                         num_cajero: 1
-                    })
-                })
-                .then(function(res) { return res.json(); })
-                .then(function(data) {
-                    if (data.ok) {
+                    }})
+                }})
+                .then(res => res.json())
+                .then(data => {{
+                    if (data.ok) {{
                         alert("Retiro exitoso. Nuevo saldo: $" + data.nuevo_saldo);
                         window.open("/descargar_comprobante/" + data.archivo_pdf, "_blank");
                         location.reload();
-                    } else {
+                    }} else {{
                         alert("Error: " + data.msg);
-                    }
-                });
-            }
+                    }}
+                }});
+            }}
 
-            function actualizarFechaHora() {
+            function depositar(monto) {{
+                fetch("/deposito", {{
+                    method: "POST",
+                    headers: {{ 'Content-Type': 'application/json' }},
+                    body: JSON.stringify({{
+                        cuenta: "{num}",
+                        monto: monto,
+                        num_cajero: 1
+                    }})
+                }})
+                .then(res => res.json())
+                .then(data => {{
+                    if (data.ok) {{
+                        alert("Depósito exitoso. Nuevo saldo: $" + data.nuevo_saldo);
+                        window.open("/descargar_comprobante/" + data.archivo_pdf, "_blank");
+                        location.reload();
+                    }} else {{
+                        alert("Error: " + data.msg);
+                    }}
+                }});
+            }}
+
+            function actualizarFechaHora() {{
                 const ahora = new Date();
                 const fecha = ahora.toLocaleDateString();
                 const hora = ahora.toLocaleTimeString();
                 document.getElementById('fechaHora').textContent = "Fecha y hora: " + fecha + " " + hora;
-            }
+            }}
 
             setInterval(actualizarFechaHora, 1000);
             actualizarFechaHora();
         </script>
     </body>
     </html>
-    """ % (
-        num,  # título
-        cliente["nombre"], cliente["apellido_paterno"], cliente["apellido_materno"],
-        cuenta_doc["saldo_actual"],  # saldo
-        num  # cuenta para fetch
-    )
-
+    """
     return render_template_string(html)
+
+
+@app.route('/deposito', methods=['POST'])
+def deposito():
+    data = request.get_json()
+    cuenta = data.get("cuenta")
+    monto = float(data.get("monto"))
+    num_cajero = data.get("num_cajero", 1)
+
+    db = obtener_conexion()
+    cuenta_doc = db.cuentas.find_one({"num_cuenta": cuenta})
+
+    if not cuenta_doc:
+        return jsonify({"ok": False, "msg": "Cuenta no encontrada"})
+
+    # Obtener el saldo actual y sumarle el depósito
+    saldo_actual = float(cuenta_doc["saldo_actual"].to_decimal())
+    nuevo_saldo = Decimal128(str(saldo_actual + monto))
+    db.cuentas.update_one({"num_cuenta": cuenta}, {"$set": {"saldo_actual": nuevo_saldo}})
+
+    # Crear movimiento
+    num_mov = db.movimientos.count_documents({}) + 1
+    fecha = datetime.now()
+
+    db.movimientos.insert_one({
+        "num_mov": num_mov,
+        "num_cuenta": cuenta,
+        "tipo": "Depósito",
+        "monto": Decimal128(str(monto)),
+        "fecha_hora": fecha,
+        "descripcion": "Depósito desde Cajero Thunder"
+    })
+
+    # Generar PDF
+    archivo_pdf = generar_pdf_deposito(f"DEP-{num_mov}", cuenta, monto, fecha, num_cajero)
+
+    return jsonify({
+        "ok": True,
+        "msg": "Depósito exitoso",
+        "nuevo_saldo": str(nuevo_saldo),
+        "archivo_pdf": archivo_pdf
+    })
+
 
 @app.route('/retiro_sin_tarjeta')
 def retiro_sin_tarjeta():
@@ -1131,6 +1203,26 @@ def verificar_nip_qr_post():
     return jsonify({"ok": False})
 
 
+def generar_pdf_deposito(folio, cuenta, monto, fecha, num_cajero):
+    hora_str = fecha.strftime("%H%M%S")
+    archivo = f"ticket_{hora_str}.pdf"
+    ruta = os.path.join("comprobantes", archivo)
+    os.makedirs("comprobantes", exist_ok=True)
+
+    c = canvas.Canvas(ruta, pagesize=letter)
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(100, 750, "Comprobante de Depósito - Cajero Thunder")
+    c.setFont("Helvetica", 12)
+    c.drawString(100, 720, f"Folio: {folio}")
+    c.drawString(100, 700, f"Número de cuenta: {cuenta}")
+    c.drawString(100, 680, f"Monto depositado: ${monto}")
+    c.drawString(100, 660, f"Número de cajero: {num_cajero}")
+    c.drawString(100, 640, f"Fecha y hora: {fecha.strftime('%d/%m/%Y %H:%M:%S')}")
+    c.drawString(100, 620, f"Autenticado: Sí")
+    c.save()
+
+    return archivo
+
 
 @app.route('/retirar', methods=['POST'])
 def retirar():
@@ -1172,6 +1264,71 @@ def retirar():
         "nuevo_saldo": str(nuevo_saldo),
         "archivo_pdf": archivo_pdf  # nombre del PDF
     })
+
+@app.route('/historial_pdf/<num_cuenta>')
+def historial_pdf(num_cuenta):
+    db = obtener_conexion()
+    cuenta_doc = db.cuentas.find_one({"num_cuenta": num_cuenta})
+
+    if not cuenta_doc:
+        return "Cuenta no encontrada", 404
+
+    # Obtener movimientos tipo depósito
+    movimientos = list(db.movimientos.find({"num_cuenta": num_cuenta}))
+    for mov in movimientos:
+        mov["tipo_origen"] = "Movimiento"
+        mov["fecha"] = mov["fecha_hora"]
+
+    # Obtener retiros desde el cajero
+    retiros = list(db.retiros_cajero.find({"num_cuenta": num_cuenta}))
+    for retiro in retiros:
+        retiro["tipo_origen"] = "RetiroCajero"
+        retiro["fecha"] = retiro["fecha_hora"]
+        retiro["tipo"] = "Retiro"
+        retiro["descripcion"] = "Retiro desde Cajero Thunder"
+
+    # Combinar ambos
+    todos = movimientos + retiros
+
+    # Ordenar por fecha descendente
+    todos.sort(key=lambda x: x["fecha"], reverse=True)
+
+    if not todos:
+        return "No hay movimientos registrados para esta cuenta", 404
+
+    # Crear archivo PDF
+    fecha = datetime.now()
+    hora_str = fecha.strftime("%H%M%S")
+    archivo = f"historial_{num_cuenta}_{hora_str}.pdf"
+    ruta = os.path.join("comprobantes", archivo)
+    os.makedirs("comprobantes", exist_ok=True)
+
+    c = canvas.Canvas(ruta, pagesize=letter)
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(100, 750, f"Historial de Movimientos - Cuenta {num_cuenta}")
+    c.setFont("Helvetica", 12)
+    c.drawString(100, 730, f"Generado: {fecha.strftime('%d/%m/%Y %H:%M:%S')}")
+    c.line(100, 725, 500, 725)
+
+    y = 700
+    for m in todos:
+        tipo = m.get("tipo", "Desconocido")
+        monto = float(m.get("monto", Decimal128("0")).to_decimal())
+        descripcion = m.get("descripcion", "Sin descripción")
+        fecha_mov = m.get("fecha", datetime.now())
+        fecha_str = fecha_mov.strftime("%d/%m/%Y %H:%M:%S")
+
+        linea = f"{fecha_str} | {tipo} de ${monto:.2f} | {descripcion}"
+        c.drawString(100, y, linea)
+        y -= 20
+
+        if y < 50:
+            c.showPage()
+            y = 750
+            c.setFont("Helvetica", 12)
+
+    c.save()
+    return send_from_directory('comprobantes', archivo, as_attachment=True)
 
 
 
